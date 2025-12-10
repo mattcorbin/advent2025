@@ -60,18 +60,26 @@ fn part2(input: &str) -> usize {
     for action in actions {
         match action.0 {
             Direction::L => {
-                let new_val = val - action.1;
-                if new_val < 0 && (new_val / 100).abs() < 100  {
-                    count += 1;
-                } else {
-                    count += (new_val / 100).abs() as usize;
+                for _ in 0..action.1 {
+                    if val == 0 {
+                        count += 1;
+                        val = 99;
+                    } else {
+                        val -= 1;
+                    }
                 }
-                val = new_val % 100;
             },
             Direction::R => {
-                let new_val = val + action.1;
-                count += (new_val / 100).abs() as usize;
-                val = new_val % 100;
+                for _ in 0..action.1 {
+                    if val == 99 {
+                        val = 0;
+                    } else if val == 0 {
+                        count += 1;
+                        val += 1;
+                    } else {
+                        val += 1;
+                    }
+                }
             }
         }
     }
